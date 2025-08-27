@@ -1837,9 +1837,11 @@ class WanVideoSampler:
                 raise ValueError("start_step must be 0 when denoise_strength is used")
             start_step = steps - int(steps * denoise_strength) - 1
             add_noise_to_samples = True #for now to not break old workflows
-
+        
         scheduler_step_args = {"generator": seed_g}
+        print(scheduler_step_args)
         step_sig = inspect.signature(sample_scheduler.step)
+        print(step_sig)
         for arg in list(scheduler_step_args.keys()):
             if arg not in step_sig.parameters:
                 scheduler_step_args.pop(arg)
