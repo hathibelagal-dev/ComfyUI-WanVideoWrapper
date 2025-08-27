@@ -1776,6 +1776,7 @@ class WanVideoSampler:
         if transformer.patched_linear and gguf_reader is None:
             load_weights(patcher.model.diffusion_model, patcher.model["sd"], weight_dtype, base_dtype=dtype, transformer_load_device=device, block_swap_args=block_swap_args)
 
+        print("Weights loaded...")
         if gguf_reader is not None: #handle GGUF
             load_weights(transformer, patcher.model["sd"], base_dtype=dtype, transformer_load_device=device, patcher=patcher, gguf=True, reader=gguf_reader, block_swap_args=block_swap_args)
             set_lora_params_gguf(transformer, patcher.patches)
@@ -1791,6 +1792,7 @@ class WanVideoSampler:
         transformer.lora_scheduling_enabled = transformer_options.get("lora_scheduling_enabled", False)
 
         #torch.compile
+        print("Compiling")
         if model["auto_cpu_offload"] is False:
             transformer = compile_model(transformer, model["compile_args"])
 
@@ -1808,6 +1810,7 @@ class WanVideoSampler:
                 "negative_prompt_embeds": [],
             }
         else:
+            print("Moving text embeds to device")
             text_embeds = dict_to_device(text_embeds, device)
 
         seed_g = torch.Generator(device=torch.device("cpu"))
