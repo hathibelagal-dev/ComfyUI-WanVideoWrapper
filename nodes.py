@@ -1839,9 +1839,7 @@ class WanVideoSampler:
             add_noise_to_samples = True #for now to not break old workflows
         
         scheduler_step_args = {"generator": seed_g}
-        print(scheduler_step_args)
         step_sig = inspect.signature(sample_scheduler.step)
-        print(step_sig)
         for arg in list(scheduler_step_args.keys()):
             if arg not in step_sig.parameters:
                 scheduler_step_args.pop(arg)
@@ -2138,8 +2136,8 @@ class WanVideoSampler:
         # FantasyPortrait
         fantasy_portrait_input = None
         fantasy_portrait_embeds = image_embeds.get("portrait_embeds", None)
-        if fantasy_portrait_embeds is not None:
-            log.info("Using FantasyPortrait embeddings")
+        if fantasy_portrait_embeds is not None:            
+            print("Using FantasyPortrait embeddings")
             fantasy_portrait_input = {
                 "adapter_proj": fantasy_portrait_embeds.get("adapter_proj", None),
                 "strength": fantasy_portrait_embeds.get("strength", 1.0),
