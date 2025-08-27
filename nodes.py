@@ -2829,12 +2829,8 @@ class WanVideoSampler:
                 
 
                 return noise_pred, [cache_state_cond, cache_state_uncond]
-
-        if args.preview_method in [LatentPreviewMethod.Auto, LatentPreviewMethod.Latent2RGB]: #default for latent2rgb
-            from latent_preview import prepare_callback
-        else:
-            from .latent_preview import prepare_callback #custom for tiny VAE previews
-        callback = prepare_callback(patcher, len(timesteps))
+        
+        callback = None
 
         if not multitalk_sampling:
             log.info(f"Input sequence length: {seq_len}")
