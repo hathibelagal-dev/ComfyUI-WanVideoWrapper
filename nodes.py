@@ -3506,6 +3506,7 @@ class WanVideoSampler:
 
                             mm.soft_empty_cache()
                             gc.collect()
+                            torch.cuda.empty_cache()
                             # sampling loop
                             sampling_pbar = tqdm(total=len(timesteps)-1, desc=f"Sampling audio indices {audio_start_idx}-{audio_end_idx}", position=0, leave=True)
                             for i in range(len(timesteps)-1):
