@@ -1232,8 +1232,8 @@ class WanVideoVAE(nn.Module):
     def tiled_encode(self, video, device, tile_size, tile_stride, end_=False, pbar=True):
         _, _, T, H, W = video.shape
         
-        tile_size = (8, 8)
-        tile_stride = (4, 4)
+        tile_size = (16, 16)
+        tile_stride = (8, 8)
 
         if tile_size is None and tile_stride is None:
             size_h, size_w = H //2, W // 2

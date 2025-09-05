@@ -1874,7 +1874,7 @@ class WanVideoSampler:
             else:
                 image_cond[:, 1:] = 0
 
-            log.info(f"image_cond shape: {image_cond.shape}")
+            print(f"image_cond shape: {image_cond.shape}")
 
             #ATI tracks
             if transformer_options is not None:
@@ -2114,10 +2114,11 @@ class WanVideoSampler:
             log.info(f"Audio proj shape: {audio_proj.shape}")
         elif multitalk_embeds is not None:
             # Handle single or multiple speaker embeddings
-            audio_features_in = multitalk_embeds.get("audio_features", None)
+            audio_features_in = multitalk_embeds.get("audio_features", None)            
             if audio_features_in is None:
                 multitalk_audio_embedding = None
             else:
+                print("Using audio features")
                 if isinstance(audio_features_in, list):
                     multitalk_audio_embedding = [emb.to(device, dtype) for emb in audio_features_in]
                 else:
@@ -2131,7 +2132,7 @@ class WanVideoSampler:
                 audio_cfg_scale = [audio_cfg_scale] * (steps + 1)
 
             shapes = [tuple(e.shape) for e in multitalk_audio_embedding]
-            log.info(f"Multitalk audio features shapes (per speaker): {shapes}")
+            print(f"Multitalk audio features shapes (per speaker): {shapes}")
 
         # FantasyPortrait
         fantasy_portrait_input = None
@@ -3281,7 +3282,7 @@ class WanVideoSampler:
                         estimated_iterations = total_frames // (frame_num - motion_frame) + 1
                         callback = None
 
-                        log.info(f"Sampling {total_frames} frames in {estimated_iterations} windows, at {latent.shape[3]*vae_upscale_factor}x{latent.shape[2]*vae_upscale_factor} with {steps} steps")
+                        print(f"Sampling {total_frames} frames in {estimated_iterations} windows, at {latent.shape[3]*vae_upscale_factor}x{latent.shape[2]*vae_upscale_factor} with {steps} steps")
 
                         while True: # start video generation iteratively
                             cur_motion_frames_latent_num = int(1 + (cur_motion_frames_num-1) // 4)
@@ -3558,7 +3559,6 @@ class WanVideoSampler:
                             videos = vae.decode(latent.unsqueeze(0).to(device, vae.dtype), device=device, tiled=tiled_vae, pbar=False)[0].cpu()
                             vae.model.clear_cache()
                             vae.to(offload_device)
-
                             sampling_pbar.close()
                             
                             # optional color correction (less relevant for InfiniteTalk)
