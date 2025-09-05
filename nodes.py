@@ -3520,7 +3520,8 @@ class WanVideoSampler:
                                     latent_model_input, cfg[i], positive, text_embeds["negative_prompt_embeds"], 
                                     timestep, i, y, clip_embeds, control_latents, window_vace_data, partial_unianim_data, audio_proj, control_camera_latents, add_cond,
                                     cache_state=self.cache_state, multitalk_audio_embeds=audio_embs, fantasy_portrait_input=partial_fantasy_portrait_input)
-
+                                
+                                print("Got to see no callback")
                                 if callback is not None:
                                     callback_latent = (latent_model_input.to(device) - noise_pred.to(device) * t.to(device) / 1000).detach().permute(1,0,2,3)
                                     callback(step_iteration_count, callback_latent, None, estimated_iterations*(len(timesteps)-1))
